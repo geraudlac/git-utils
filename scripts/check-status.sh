@@ -84,6 +84,8 @@ do
 	if [ $? -eq 0 ]; then
 		git status
 		git checkout $GIT_DEFAULT_DEV_BRANCH
+		echo '*** 'commits to be pushed to \'$GIT_DEFAULT_MASTER_BRANCH\' branch:
+		git log $GIT_DEFAULT_MASTER_BRANCH..$BRANCH_TO_CHECK --oneline --decorate
 	else
 		echo; echo '*** ERROR ***' branch \'$BRANCH_TO_CHECK\' does not exist! '***'
 	fi
