@@ -70,7 +70,7 @@ if [ $? -eq 0 ]; then
 		echo Pushing \'$BRANCH_TO\'...
 		git push
 	else
-		echo; echo '*** ERROR ***' Rebasing branch \'$BRANCH_FROM\' to \'$BRANCH_TO\' failed! (Push canceled) '***'
+		echo; echo "*** ERROR *** Rebasing branch '$BRANCH_FROM' to '$BRANCH_TO' failed! (Push canceled) ***"
 	fi
 else
 	echo; echo '*** ERROR ***' branch \'$BRANCH_TO\' does not exist! '***'

@@ -43,9 +43,12 @@ function displayDefaultDevBranch() {
 # ======================================================
 # Script beginning
 
+export BAR="Hello World!"
+
 case "$#" in
 	"0" ) displayDefaultDevBranch;;
 	"1" ) setDefaultDevBranch $1;;
 	*   ) tooManyArguments;;
 esac
 
+echo "BAR = $BAR"
