@@ -12,7 +12,7 @@ alias gitlog3="git log --graph --decorate --pretty=format:'%C(yellow)%h - %Cgree
 
 alias gitlog40="git log --graph --decorate --abbrev-commit --date=short --pretty=format:'%C(yellow)%h#%Cgreen%cr#%C(bold blue)%an#%C(cyan)%d %Creset%s' -50"
 
-alias gitlog41="git log --graph --decorate --abbrev-commit --date=short --pretty=format:'%C(yellow)%h#%Cgreen%cr#%C(bold blue)%an#%C(cyan)%d %Creset%s' -50 | awk -F '#' '{ printf \"%-25s %-19s %-30s %s\n\", \$1, \$2, \$3, \$4 }'"
+alias gitlog41="git log --graph --decorate --abbrev-commit --date=short --pretty=format:'%C(yellow)%h#%Cgreen%cr#%C(bold blue)%an#%C(cyan)%d %Creset%s' -50 | awk -F '#' '{ printf \"%-25s %-20s %-30s %s\n\", \$1, \$2, \$3, \$4 }'"
 
 alias gitlogext0="git log --pretty=format:'%h|%an|%s' -10"
 
