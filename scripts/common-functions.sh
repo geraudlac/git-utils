@@ -40,7 +40,7 @@ function printHelp() {
 }
 
 function unknownOption() {
-	echo; echo '*** ERROR ***' option \'$1\' IS UNKNOWN! '***'
+	echoError option \'$1\' IS UNKNOWN!
 	exit $ERROR_UNKNOWN_OPTION
 }
 
@@ -50,7 +50,7 @@ function isGitRepo() {
 
 function checkIsGitRepo() {
 	if ! isGitRepo $1; then
-		echo; echo '*** ERROR ***' \'$1\' IS NOT A GIT REPO! '***'
+		echoError \'$1\' IS NOT A GIT REPO!
 		exit $ERROR_INVALID_GIT_REPO
 	fi	
 }
@@ -71,7 +71,7 @@ function getAllRepositories() {
 function checkBranchName() {
 	git check-ref-format --branch "$1"
 	if [ $? -ne 0 ]; then
-		echo; echo '*** ERROR ***' \'$1\' IS AN INVALID BRANCH NAME '***'
+		echoError \'$1\' IS AN INVALID BRANCH NAME!
 		exit $ERROR_INVALID_BRANCH_NAME
 	fi
 }
@@ -84,12 +84,12 @@ function getBranchFromNextArgument() {
 	
 	eval currentBranchName=\$$1
 	if [ -n "$currentBranchName" ]; then
-		echo; echo '*** ERROR ***' ONLY ONE BRANCH CAN BE DEFINED! '***'
+		echoError ONLY ONE BRANCH CAN BE DEFINED!
 		exit $ERROR_BRANCH_DEFINED_TWICE
 	fi
 	
 	if [ -z "$2" ]; then
-		echo; echo '*** ERROR ***' NO BRANCH SPECIFIED AFTER OPTION \'$1\' '***'
+		echoError NO BRANCH SPECIFIED AFTER OPTION \'$1\'
 		exit $ERROR_MISSING_ARGUMENT
 	fi
 	
