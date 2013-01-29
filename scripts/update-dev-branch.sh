@@ -84,6 +84,9 @@ do
 		if [ $? -eq 0 ]; then
 			echo " > "Rebasing...
 			git rebase $BRANCH_FROM
+			if [ $? -ne 0 ]; then
+				echo; echo '*** ERROR ***' Rebasing failed! '***'
+			fi
 		else
 			echo; echo '*** ERROR ***' branch \'$BRANCH_TO\' does not exist! '***'
 		fi
