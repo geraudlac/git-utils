@@ -71,8 +71,7 @@ echo
 
 for repo in ${GIT_REPO[*]}
 do
-	echo === $repo ===
-	echo -----------------
+	echoRepo $repo
 	cd $repo
 	echoStep Checkout branch \'$BRANCH_FROM\'...
 	git checkout $BRANCH_FROM

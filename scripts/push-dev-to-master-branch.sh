@@ -46,8 +46,7 @@ echo "*"
 echo "**********************************************"
 echo
 
-echo === $repo ===
-echo -----------------
+echoRepo $repo
 
 cd $repo
 

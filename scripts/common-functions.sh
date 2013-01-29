@@ -33,6 +33,10 @@ function echoError() {
 function echoStep() {
 	echo -e " > \e[1;37m"$*"\e[0m"
 }
+function echoRepo() {
+	echo -e "\e[1;36m"=== $* ==="\e[0m"
+	echo -e "\e[1;36m"-----------------"\e[0m"
+}
 
 function printHelp() {
 	echo TODO : print help for this command!!!
