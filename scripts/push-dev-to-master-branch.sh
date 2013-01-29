@@ -8,12 +8,12 @@
 # functions
 
 function tooManyArguments() {
-	echo; echo '*** ERROR ***' NO MORE THAN ONE ARGUMENT! '***'
+	echoError NO MORE THAN ONE ARGUMENT!
 	exit $ERROR_TOO_MANY_ARGUMENTS
 }
 
 function noGitRepoSpecified() {
-	echo; echo '*** ERROR ***' YOU MUST SPECIFIY A PROJECT! '***'
+	echoError YOU MUST SPECIFIY A PROJECT!
 	exit $ERROR_MISSING_ARGUMENT
 }
 
