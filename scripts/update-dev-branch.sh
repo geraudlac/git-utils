@@ -74,24 +74,24 @@ do
 	echo === $repo ===
 	echo -----------------
 	cd $repo
-	echo " > "Checkout branch \'$BRANCH_FROM\'...
+	echoStep Checkout branch \'$BRANCH_FROM\'...
 	git checkout $BRANCH_FROM
 	if [ $? -eq 0 ]; then
-		echo " > "Pulling...
+		echoStep Pulling...
 		git pull
-		echo " > "Checkout branch \'$BRANCH_TO\'...
+		echoStep Checkout branch \'$BRANCH_TO\'...
 		git checkout $BRANCH_TO
 		if [ $? -eq 0 ]; then
-			echo " > "Rebasing...
+			echoStep Rebasing...
 			git rebase $BRANCH_FROM
 			if [ $? -ne 0 ]; then
-				echo; echo '*** ERROR ***' Rebasing failed! '***'
+				echoError Rebasing failed!
 			fi
 		else
-			echo; echo '*** ERROR ***' branch \'$BRANCH_TO\' does not exist! '***'
+			echoError branch \'$BRANCH_TO\' does not exist!
 		fi
 	else
-		echo; echo '*** ERROR ***' branch \'$BRANCH_FROM\' does not exist! '***'
+		echoError branch \'$BRANCH_FROM\' does not exist!
 	fi
 	cd ..
 	echo

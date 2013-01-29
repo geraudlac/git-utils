@@ -51,24 +51,27 @@ echo -----------------
 
 cd $repo
 
-echo " > "Checkout branch \'$GIT_MASTER_BRANCH\'...
+echoStep Checkout branch \'$GIT_MASTER_BRANCH\'...
 git checkout $GIT_MASTER_BRANCH
 
 if [ $? -eq 0 ]; then
-	echo " > "Rebasing \'$GIT_DEV_BRANCH\'...
+	echoStep Rebasing \'$GIT_DEV_BRANCH\'...
 	git rebase $GIT_DEV_BRANCH
 	if [ $? -eq 0 ]; then
-		echo " > "Pushing \'$GIT_MASTER_BRANCH\'...
+		echoStep Pushing \'$GIT_MASTER_BRANCH\'...
 		git push
 	else
-		echo; echo "*** ERROR *** Rebasing branch '$GIT_DEV_BRANCH' to '$GIT_MASTER_BRANCH' failed! (Push canceled) ***"
+		echoError Rebasing branch \'$GIT_DEV_BRANCH\' to \'$GIT_MASTER_BRANCH\' failed! (Push canceled)
 	fi
 else
-	echo; echo '*** ERROR ***' branch \'$GIT_MASTER_BRANCH\' does not exist! '***'
+	echoError branch \'$GIT_MASTER_BRANCH\' does not exist!
 fi	
 
-echo " > "Checkout branch \'$GIT_DEV_BRANCH\'...
+echoStep Checkout branch \'$GIT_DEV_BRANCH\'...
 git checkout $GIT_DEV_BRANCH
+if [ $? -ne 0 ]; then
+	echoError Failed to switch back to \'$GIT_DEV_BRANCH\' branch!
+fi
 
 
 echo

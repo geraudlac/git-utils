@@ -74,16 +74,16 @@ do
 	echo === $repo ===
 	echo -----------------
 	cd $repo
-	echo ' > 'checkout branch \'$GIT_DEV_BRANCH\'...
+	echoStep checkout branch \'$GIT_DEV_BRANCH\'...
 	git checkout $GIT_DEV_BRANCH
 	
 	if [ $? -eq 0 ]; then
-		echo ' > 'git status...
+		echoStep git status...
 		git status
-		echo ' > 'commits to be pushed to \'$GIT_MASTER_BRANCH\' branch:
+		echoStep commits to be pushed to \'$GIT_MASTER_BRANCH\' branch:
 		git log $GIT_MASTER_BRANCH..$GIT_DEV_BRANCH --oneline --decorate
 	else
-		echo; echo '*** ERROR ***' branch \'$GIT_DEV_BRANCH\' does not exist! '***'
+		echoError branch \'$GIT_DEV_BRANCH\' does not exist!
 	fi
 			
 	cd ..
