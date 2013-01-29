@@ -1,10 +1,6 @@
 #!/bin/sh
 
 # ------------------------------------------------------
-# loading user settings
-. user-settings.sh
-
-# ------------------------------------------------------
 # loading common functions
 . common-functions.sh
 
@@ -19,8 +15,8 @@ function analyzeArguments() {
 			#echo DEBUG: analyze option $1
 			case "$1" in
 				"-h" | "--help"   ) printHelp ;;
-				"-f" | "--from-branch" ) getBranchFromNextArgument "BRANCH_FROM" $2; shift ;;
-				"-t" | "--to-branch" ) getBranchFromNextArgument "BRANCH_TO" $2; shift ;;
+#				"-f" | "--from-branch" ) getBranchFromNextArgument "BRANCH_FROM" $2; shift ;;
+#				"-t" | "--to-branch" ) getBranchFromNextArgument "BRANCH_TO" $2; shift ;;
 				*                 ) unknownOption $1 ;;
 			esac
 		else
@@ -53,10 +49,10 @@ fi
 # ------------------------------------------------------
 # by default, get default user dev branch and local master branch
 if [ -z $BRANCH_TO ]; then
-	BRANCH_TO="$GIT_DEFAULT_DEV_BRANCH"
+	BRANCH_TO="$GIT_DEV_BRANCH"
 fi
 if [ -z $BRANCH_FROM ]; then
-	BRANCH_FROM="$GIT_DEFAULT_MASTER_BRANCH"
+	BRANCH_FROM="$GIT_MASTER_BRANCH"
 fi
 
 
@@ -78,13 +74,15 @@ do
 	echo === $repo ===
 	echo -----------------
 	cd $repo
-	echo Checkout branch \'$BRANCH_FROM\'...
+	echo " > "Checkout branch \'$BRANCH_FROM\'...
 	git checkout $BRANCH_FROM
 	if [ $? -eq 0 ]; then
+		echo " > "Pulling...
 		git pull
-		echo Checkout branch \'$BRANCH_TO\'...
+		echo " > "Checkout branch \'$BRANCH_TO\'...
 		git checkout $BRANCH_TO
 		if [ $? -eq 0 ]; then
+			echo " > "Rebasing...
 			git rebase $BRANCH_FROM
 		else
 			echo; echo '*** ERROR ***' branch \'$BRANCH_TO\' does not exist! '***'
