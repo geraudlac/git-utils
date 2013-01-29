@@ -19,7 +19,7 @@ function analyzeArguments() {
 			#echo DEBUG: analyze option $1
 			case "$1" in
 				"-h" | "--help"   ) printHelp ;;
-				"-b" | "--branch" ) getBranchFromNextArgument "BRANCH_TO_CHECK" $2; shift ;;
+#				"-b" | "--branch" ) getBranchFromNextArgument "BRANCH_TO_CHECK" $2; shift ;;
 				*                 ) unknownOption $1 ;;
 			esac
 		else
@@ -50,10 +50,10 @@ if [ -z $GIT_REPO ]; then
 fi
 
 # ------------------------------------------------------
-# by default, get default user dev branch 
-if [ -z $BRANCH_TO_CHECK ]; then
-	BRANCH_TO_CHECK="$GIT_DEFAULT_DEV_BRANCH"
-fi
+# by default, get default user dev branch as branch to check
+#if [ -z $BRANCH_TO_CHECK ]; then
+#	BRANCH_TO_CHECK="$GIT_DEV_BRANCH"
+#fi
 
 
 #echo DEBUG: Git repositories to check: ${GIT_REPO[*]}
@@ -64,7 +64,7 @@ fi
 echo
 echo "**********************************************"
 echo "*"
-echo "* Checking status for each local \"$BRANCH_TO_CHECK\" branch"
+echo "* Checking status for each local \"$GIT_DEV_BRANCH\" branch"
 echo "*"
 echo "**********************************************"
 echo
@@ -74,16 +74,16 @@ do
 	echo === $repo ===
 	echo -----------------
 	cd $repo
-	echo Checkout branch \'$BRANCH_TO_CHECK\'...
-	git checkout $BRANCH_TO_CHECK
+	echo ' > 'checkout branch \'$GIT_DEV_BRANCH\'...
+	git checkout $GIT_DEV_BRANCH
 	
 	if [ $? -eq 0 ]; then
+		echo ' > 'git status...
 		git status
-		git checkout $GIT_DEFAULT_DEV_BRANCH
-		echo '*** 'commits to be pushed to \'$GIT_DEFAULT_MASTER_BRANCH\' branch:
-		git log $GIT_DEFAULT_MASTER_BRANCH..$BRANCH_TO_CHECK --oneline --decorate
+		echo ' > 'commits to be pushed to \'$GIT_MASTER_BRANCH\' branch:
+		git log $GIT_MASTER_BRANCH..$GIT_DEV_BRANCH --oneline --decorate
 	else
-		echo; echo '*** ERROR ***' branch \'$BRANCH_TO_CHECK\' does not exist! '***'
+		echo; echo '*** ERROR ***' branch \'$GIT_DEV_BRANCH\' does not exist! '***'
 	fi
 			
 	cd ..
