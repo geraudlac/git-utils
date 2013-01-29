@@ -61,7 +61,7 @@ if [ $? -eq 0 ]; then
 		echoStep Pushing \'$GIT_MASTER_BRANCH\'...
 		git push
 	else
-		echoError Rebasing branch \'$GIT_DEV_BRANCH\' to \'$GIT_MASTER_BRANCH\' failed! (Push canceled)
+		echoError Rebasing branch \'$GIT_DEV_BRANCH\' to \'$GIT_MASTER_BRANCH\' failed!
 	fi
 else
 	echoError branch \'$GIT_MASTER_BRANCH\' does not exist!
