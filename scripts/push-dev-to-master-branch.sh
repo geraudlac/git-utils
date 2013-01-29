@@ -1,10 +1,6 @@
 #!/bin/sh
 
 # ------------------------------------------------------
-# loading user settings
-. user-settings.sh
-
-# ------------------------------------------------------
 # loading common functions
 . common-functions.sh
 
@@ -41,16 +37,11 @@ cd $GIT_REPOSITORIES_LOCATION
 analyzeArguments $*
 
 # ------------------------------------------------------
-# working with default branches only for the moment
-BRANCH_FROM=$GIT_DEFAULT_DEV_BRANCH
-BRANCH_TO=$GIT_DEFAULT_MASTER_BRANCH
-
-# ------------------------------------------------------
 # calling 'git rebase' and 'git push' (main part)
 echo
 echo "**********************************************"
 echo "*"
-echo "* Rebasing and pushing local \"$BRANCH_FROM\" branch to \"$BRANCH_TO\" branch for projet \"$1\""
+echo "* Rebasing and pushing local \"$GIT_DEV_BRANCH\" branch to \"$GIT_MASTER_BRANCH\" branch for projet \"$1\""
 echo "*"
 echo "**********************************************"
 echo
@@ -60,20 +51,20 @@ echo -----------------
 
 cd $repo
 
-echo Checkout branch \'$BRANCH_TO\'...
-git checkout $BRANCH_TO
+echo " > "Checkout branch \'$GIT_MASTER_BRANCH\'...
+git checkout $GIT_MASTER_BRANCH
 
 if [ $? -eq 0 ]; then
-	echo Rebasing \'$BRANCH_FROM\'...
-	git rebase $BRANCH_FROM
+	echo " > "Rebasing \'$GIT_DEV_BRANCH\'...
+	git rebase $GIT_DEV_BRANCH
 	if [ $? -eq 0 ]; then
-		echo Pushing \'$BRANCH_TO\'...
+		echo " > "Pushing \'$GIT_MASTER_BRANCH\'...
 		git push
 	else
-		echo; echo "*** ERROR *** Rebasing branch '$BRANCH_FROM' to '$BRANCH_TO' failed! (Push canceled) ***"
+		echo; echo "*** ERROR *** Rebasing branch '$GIT_DEV_BRANCH' to '$GIT_MASTER_BRANCH' failed! (Push canceled) ***"
 	fi
 else
-	echo; echo '*** ERROR ***' branch \'$BRANCH_TO\' does not exist! '***'
+	echo; echo '*** ERROR ***' branch \'$GIT_MASTER_BRANCH\' does not exist! '***'
 fi	
 
 
