@@ -11,7 +11,10 @@
 # ------------------------------------------------------
 # functions
 function printHelp() {
-	echo TODO : print help!!!
+	echo Usage:
+	echo ------
+	echo "  workon                  : Displays current branch you're working on"
+	echo "  workon <branchName>     : Set <branchName> as current working branch"
 	exit 0
 }
 
@@ -20,21 +23,21 @@ function tooManyArguments() {
 	exit $ERROR_TOO_MANY_ARGUMENTS
 }
 
-function setDefaultDevBranch() {
+function setGitDevBranch() {
 	if [ $1 == "-h" ] || [ $1 == "--help" ]; then
 		printHelp
 	else
 		checkBranchName $1
-		GIT_DEFAULT_DEV_BRANCH=$1
-		displayDefaultDevBranch
+		export GIT_DEV_BRANCH=$1
+		displayGitDevBranch
 	fi
 }
 
-function displayDefaultDevBranch() {
+function displayGitDevBranch() {
 	echo
 	echo "****************************************************"
 	echo "*"
-	echo "* working on \"$GIT_DEFAULT_DEV_BRANCH\" branches by default!"
+	echo "* Now working on \"$GIT_DEV_BRANCH\" branches!"
 	echo "*"
 	echo "****************************************************"
 	echo
@@ -43,12 +46,8 @@ function displayDefaultDevBranch() {
 # ======================================================
 # Script beginning
 
-export BAR="Hello World!"
-
 case "$#" in
-	"0" ) displayDefaultDevBranch;;
-	"1" ) setDefaultDevBranch $1;;
+	"0" ) displayGitDevBranch;;
+	"1" ) setGitDevBranch $1;;
 	*   ) tooManyArguments;;
 esac
-
-echo "BAR = $BAR"

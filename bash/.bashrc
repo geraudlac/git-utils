@@ -60,3 +60,9 @@ export PATH
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
+
+###########################################
+# Configure git scripts with user settings
+###########################################
+. user-git-settings.sh
+workon

@@ -1,10 +1,6 @@
 #!/bin/sh
 
 # ------------------------------------------------------
-# loading user settings
-. user-settings.sh
-
-# ------------------------------------------------------
 # loading common functions
 . common-functions.sh
 
