@@ -60,16 +60,16 @@ if [ $? -eq 0 ]; then
 		echoStep Pushing \'$GIT_MASTER_BRANCH\'...
 		git push
 	else
-		echoError Rebasing branch \'$GIT_DEV_BRANCH\' to \'$GIT_MASTER_BRANCH\' failed!
+		echoError REBASING BRANCH \'$GIT_DEV_BRANCH\' TO \'$GIT_MASTER_BRANCH\' FAILED!
 	fi
 else
-	echoError branch \'$GIT_MASTER_BRANCH\' does not exist!
+	echoError BRANCH \'$GIT_MASTER_BRANCH\' DOES NOT EXIST!
 fi	
 
 echoStep Checkout branch \'$GIT_DEV_BRANCH\'...
 git checkout $GIT_DEV_BRANCH
 if [ $? -ne 0 ]; then
-	echoError Failed to switch back to \'$GIT_DEV_BRANCH\' branch!
+	echoError FAILED TO SWITCH BACK TO \'$GIT_DEV_BRANCH\' BRANCH!
 fi
 
 

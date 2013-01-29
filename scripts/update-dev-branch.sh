@@ -84,13 +84,13 @@ do
 			echoStep Rebasing...
 			git rebase $BRANCH_FROM
 			if [ $? -ne 0 ]; then
-				echoError Rebasing failed!
+				echoError REBASING FAILED!
 			fi
 		else
-			echoError branch \'$BRANCH_TO\' does not exist!
+			echoError BRANCH \'$BRANCH_TO\' DOES NOT EXIST!
 		fi
 	else
-		echoError branch \'$BRANCH_FROM\' does not exist!
+		echoError BRANCH \'$BRANCH_FROM\' DOES NOT EXIST!
 	fi
 	cd ..
 	echo
