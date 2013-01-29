@@ -1,10 +1,6 @@
 #!/bin/sh
 
 # ------------------------------------------------------
-# loading user settings
-. user-settings.sh
-
-# ------------------------------------------------------
 # loading common functions
 . common-functions.sh
 
@@ -15,21 +11,28 @@ function printHelp() {
 	echo ------
 	echo "  workon                  : Displays current branch you're working on"
 	echo "  workon <branchName>     : Set <branchName> as current working branch"
-	exit 0
+# Do not exit any more because this script is executed in the same shell as the window
+#	exit 0
 }
 
 function tooManyArguments() {
 	echo; echo '*** ERROR ***' NO MORE THAN ONE ARGUMENT! '***'
-	exit $ERROR_TOO_MANY_ARGUMENTS
+# Do not exit any more because this script is executed in the same shell as the window
+#	exit $ERROR_TOO_MANY_ARGUMENTS
 }
 
 function setGitDevBranch() {
 	if [ $1 == "-h" ] || [ $1 == "--help" ]; then
 		printHelp
 	else
-		checkBranchName $1
-		export GIT_DEV_BRANCH=$1
-		displayGitDevBranch
+		git check-ref-format --branch "$1"
+		if [ $? -eq 0 ]; then
+			export GIT_DEV_BRANCH=$1
+			displayGitDevBranch
+		else
+			echo; echo '*** ERROR ***' \'$1\' IS NOT A VALID BRANCH NAME '***'
+			#exit $ERROR_INVALID_BRANCH_NAME
+		fi
 	fi
 }
 
