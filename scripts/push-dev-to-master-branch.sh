@@ -67,6 +67,9 @@ else
 	echo; echo '*** ERROR ***' branch \'$GIT_MASTER_BRANCH\' does not exist! '***'
 fi	
 
+echo " > "Checkout branch \'$GIT_DEV_BRANCH\'...
+git checkout $GIT_DEV_BRANCH
+
 
 echo
 echo "*********************"
