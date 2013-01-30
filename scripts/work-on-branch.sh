@@ -40,7 +40,7 @@ function displayGitDevBranch() {
 	echo
 	echo "****************************************************"
 	echo "*"
-	echo "* Now working on \"$GIT_DEV_BRANCH\" branches!"
+	echo -e "* Now working on \"\e[1;33m$GIT_DEV_BRANCH\e[1;33m\" branches!"
 	echo "*"
 	echo "****************************************************"
 	echo
