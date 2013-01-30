@@ -28,7 +28,7 @@ ERROR_TOO_MANY_ARGUMENTS=32
 # ------------------------------------------------------
 # common functions
 function echoError() {
-	echo; echo -e "\e[1;37;41m *** $* *** \e[0m"
+	echo; echo -e "\e[1;37;41m *** $* *** \e[0m"; echo
 }
 function echoStep() {
 	echo -e " > \e[1;37m"$*"\e[0m"
