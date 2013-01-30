@@ -64,7 +64,7 @@ fi
 echo
 echo "**********************************************"
 echo "*"
-echo "* Checking status for each local \"$GIT_DEV_BRANCH\" branch"
+echo -e "* Checking status for each local \"\e[1;33m$GIT_DEV_BRANCH\e[0m\" branch"
 echo "*"
 echo "**********************************************"
 echo

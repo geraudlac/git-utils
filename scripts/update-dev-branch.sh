@@ -64,7 +64,7 @@ fi
 echo
 echo "**********************************************"
 echo "*"
-echo "* Updating each local \"$BRANCH_TO\" branch from \"$BRANCH_FROM\" branch "
+echo -e "* Updating each local \"\e[1;33m$BRANCH_TO\e[0m\" branch from \"\e[1;33m$BRANCH_FROM\e[0m\" branch "
 echo "*"
 echo "**********************************************"
 echo
