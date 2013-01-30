@@ -67,7 +67,7 @@ fi
 echo
 echo "**********************************************"
 echo "*"
-echo -e "* Rebasing and pushing local \"\e[1;33m$GIT_DEV_BRANCH\e[0m\" branch to \"\e[1;33m$GIT_MASTER_BRANCH\e[0m\" branch(es)"
+echo -e "* Rebasing and pushing local \"\e[1;33m$GIT_DEV_BRANCH\e[0m\" branch(es) to \"\e[1;33m$GIT_MASTER_BRANCH\e[0m\" branch(es)"
 echo "*"
 echo "**********************************************"
 echo
