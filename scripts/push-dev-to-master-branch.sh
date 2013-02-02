@@ -7,24 +7,6 @@
 # ------------------------------------------------------
 # functions
 
-function tooManyArguments() {
-	echoError NO MORE THAN ONE ARGUMENT!
-	exit $ERROR_TOO_MANY_ARGUMENTS
-}
-
-function noGitRepoSpecified() {
-	echoError YOU MUST SPECIFIY A PROJECT!
-	exit $ERROR_MISSING_ARGUMENT
-}
-
-function analyzeArguments() {
-	case "$#" in
-		"0" ) noGitRepoSpecified;;
-		"1" ) checkIsGitRepo $1; repo=$1;;
-		*   ) tooManyArguments;;
-	esac
-}
-
 function analyzeArguments() {
 	while [ -n "$1" ]
 	do
