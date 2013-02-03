@@ -11,13 +11,13 @@ function printHelp() {
 	echo ------
 	echo "  workon                  : Displays current branch you're working on"
 	echo "  workon <branchName>     : Set <branchName> as current working branch"
-# Do not exit any more because this script is executed in the same shell as the window
+# Do not exit any more because this script is executed in the same shell as the window on startup
 #	exit 0
 }
 
 function tooManyArguments() {
-	echo; echo '*** ERROR ***' NO MORE THAN ONE ARGUMENT! '***'
-# Do not exit any more because this script is executed in the same shell as the window
+	echoError NO MORE THAN ONE ARGUMENT!
+# Do not exit any more because this script is executed in the same shell as the window on startup
 #	exit $ERROR_TOO_MANY_ARGUMENTS
 }
 
@@ -30,7 +30,7 @@ function setGitDevBranch() {
 			export GIT_DEV_BRANCH=$1
 			displayGitDevBranch
 		else
-			echo; echo '*** ERROR ***' \'$1\' IS NOT A VALID BRANCH NAME '***'
+			echoError \'$1\' IS NOT A VALID BRANCH NAME
 			#exit $ERROR_INVALID_BRANCH_NAME
 		fi
 	fi
