@@ -30,6 +30,9 @@ ERROR_TOO_MANY_ARGUMENTS=32
 function echoError() {
 	echo; echo -e "\e[1;37;41m *** $* *** \e[0m"; echo
 }
+function echoInfo() {
+	echo; echo -e "\e[1;37m *** $* *** \e[0m"; echo
+}
 function echoStep() {
 	echo -e " > \e[1;37m"$*"\e[0m"
 }

@@ -15,8 +15,8 @@ function analyzeArguments() {
 			#echo DEBUG: analyze option $1
 			case "$1" in
 				"-h" | "--help"   ) printHelp ;;
-#				"-f" | "--from-branch" ) getBranchFromNextArgument "BRANCH_FROM" $2; shift ;;
-#				"-t" | "--to-branch" ) getBranchFromNextArgument "BRANCH_TO" $2; shift ;;
+#				"-f" | "--from-branch" ) getBranchFromNextArgument "GIT_FROM_BRANCH" $2; shift ;;
+#				"-t" | "--to-branch" ) getBranchFromNextArgument "GIT_TO_BRANCH" $2; shift ;;
 				*                 ) unknownOption $1 ;;
 			esac
 		else
@@ -46,25 +46,16 @@ if [ -z $GIT_REPO ]; then
 	getAllRepositories
 fi
 
-# ------------------------------------------------------
-# by default, get default user dev branch and local master branch
-if [ -z $BRANCH_TO ]; then
-	BRANCH_TO="$GIT_DEV_BRANCH"
-fi
-if [ -z $BRANCH_FROM ]; then
-	BRANCH_FROM="$GIT_MASTER_BRANCH"
-fi
-
 
 #echo DEBUG: Git repositories to check: ${GIT_REPO[*]}
-#echo DEBUG: Branch to check: $BRANCH_TO_CHECK
+#echo DEBUG: Branch to check: $GIT_DEV_BRANCH_CHECK
 
 # ------------------------------------------------------
 # calling 'git status' (main part)
 echo
 echo "**********************************************"
 echo "*"
-echo -e "* Updating each local \"\e[1;33m$BRANCH_TO\e[0m\" branch from \"\e[1;33m$BRANCH_FROM\e[0m\" branch "
+echo -e "* Updating each local \"\e[1;33m$GIT_DEV_BRANCH\e[0m\" branch from \"\e[1;33m$GIT_MASTER_BRANCH\e[0m\" branch "
 echo "*"
 echo "**********************************************"
 echo
@@ -73,25 +64,33 @@ for repo in ${GIT_REPO[*]}
 do
 	echoRepo $repo
 	cd $repo
-	echoStep Checkout branch \'$BRANCH_FROM\'...
-	git checkout $BRANCH_FROM
-	if [ $? -eq 0 ]; then
-		echoStep Pulling...
-		git pull
-		echoStep Checkout branch \'$BRANCH_TO\'...
-		git checkout $BRANCH_TO
+	
+	if branchExists $GIT_DEV_BRANCH; then
+	
+		echoStep Checkout branch \'$GIT_MASTER_BRANCH\'...
+		git checkout $GIT_MASTER_BRANCH
 		if [ $? -eq 0 ]; then
-			echoStep Rebasing...
-			git rebase $BRANCH_FROM
-			if [ $? -ne 0 ]; then
-				echoError REBASING FAILED!
+			echoStep Pulling...
+			git pull
+			echoStep Checkout branch \'$GIT_DEV_BRANCH\'...
+			git checkout $GIT_DEV_BRANCH
+			if [ $? -eq 0 ]; then
+				echoStep Rebasing...
+				git rebase $GIT_MASTER_BRANCH
+				if [ $? -ne 0 ]; then
+					echoError REBASE FAILED!
+				fi
+			else
+				echoError BRANCH \'$GIT_DEV_BRANCH\' DOES NOT EXIST!
 			fi
 		else
-			echoError BRANCH \'$BRANCH_TO\' DOES NOT EXIST!
+			echoError BRANCH \'$GIT_MASTER_BRANCH\' DOES NOT EXIST!
 		fi
+	
 	else
-		echoError BRANCH \'$BRANCH_FROM\' DOES NOT EXIST!
+		echoInfo branch \'$GIT_DEV_BRANCH\' does not exist in $repo! SKIPPING...
 	fi
+	
 	cd ..
 	echo
 done
