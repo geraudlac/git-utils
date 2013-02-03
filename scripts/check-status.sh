@@ -73,18 +73,25 @@ for repo in ${GIT_REPO[*]}
 do
 	echoRepo $repo
 	cd $repo
-	echoStep checkout branch \'$GIT_DEV_BRANCH\'...
-	git checkout $GIT_DEV_BRANCH
 	
-	if [ $? -eq 0 ]; then
-		echoStep git status...
-		git status
-		echoStep commits to be pushed to \'$GIT_MASTER_BRANCH\' branch:
-		git log $GIT_MASTER_BRANCH..$GIT_DEV_BRANCH --oneline --decorate
+	if branchExists $GIT_DEV_BRANCH; then
+		
+		echoStep checkout branch \'$GIT_DEV_BRANCH\'...
+		git checkout $GIT_DEV_BRANCH
+		
+		if [ $? -eq 0 ]; then
+			echoStep git status...
+			git status
+			echoStep commits to be pushed to \'$GIT_MASTER_BRANCH\' branch:
+			git log $GIT_MASTER_BRANCH..$GIT_DEV_BRANCH --oneline --decorate
+		else
+			echoError branch \'$GIT_DEV_BRANCH\' does not exist!
+		fi
+		
 	else
-		echoError branch \'$GIT_DEV_BRANCH\' does not exist!
+		echoInfo branch \'$GIT_DEV_BRANCH\' does not exist in $repo! SKIPPING...
 	fi
-			
+	
 	cd ..
 	echo; echo
 done
