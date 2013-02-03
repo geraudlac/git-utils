@@ -104,3 +104,9 @@ function getBranchFromNextArgument() {
 	#eval echo "DEBUG-getBranch: $1 = "\$$1
 }
 
+function branchExists() {
+	# TODO dans $1, transformer les . en \., les * en \* etc...
+	# all metacharacters can be found here: http://bashshell.net/regular-expressions/features-of-regular-expressions/
+	result=`git branch | grep "^. $1$"`
+	[ -n "$result" ]
+}
