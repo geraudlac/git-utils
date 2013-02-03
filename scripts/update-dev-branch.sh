@@ -15,6 +15,7 @@ function analyzeArguments() {
 			#echo DEBUG: analyze option $1
 			case "$1" in
 				"-h" | "--help"   ) printHelp ;;
+				"-m" | "--master-only"   ) MASTER_ONLY="true";;
 #				"-f" | "--from-branch" ) getBranchFromNextArgument "GIT_FROM_BRANCH" $2; shift ;;
 #				"-t" | "--to-branch" ) getBranchFromNextArgument "GIT_TO_BRANCH" $2; shift ;;
 				*                 ) unknownOption $1 ;;
@@ -27,6 +28,10 @@ function analyzeArguments() {
 		fi
 		shift
 	done
+}
+
+function updateMasterOnly() {
+	[[ $MASTER_ONLY = "true" ]]
 }
 
 # ======================================================
@@ -55,7 +60,11 @@ fi
 echo
 echo "**********************************************"
 echo "*"
-echo -e "* Updating each local \"\e[1;33m$GIT_DEV_BRANCH\e[0m\" branch from \"\e[1;33m$GIT_MASTER_BRANCH\e[0m\" branch "
+if updateMasterOnly; then
+	echo -e "* Updating each local \"\e[1;33m$GIT_MASTER_BRANCH\e[0m\" branch "
+else
+	echo -e "* Updating each local \"\e[1;33m$GIT_DEV_BRANCH\e[0m\" branch from \"\e[1;33m$GIT_MASTER_BRANCH\e[0m\" branch "
+fi
 echo "*"
 echo "**********************************************"
 echo
@@ -72,16 +81,18 @@ do
 		if [ $? -eq 0 ]; then
 			echoStep Pulling...
 			git pull
-			echoStep Checkout branch \'$GIT_DEV_BRANCH\'...
-			git checkout $GIT_DEV_BRANCH
-			if [ $? -eq 0 ]; then
-				echoStep Rebasing...
-				git rebase $GIT_MASTER_BRANCH
-				if [ $? -ne 0 ]; then
-					echoError REBASE FAILED!
+			if ! updateMasterOnly; then
+				echoStep Checkout branch \'$GIT_DEV_BRANCH\'...
+				git checkout $GIT_DEV_BRANCH
+				if [ $? -eq 0 ]; then
+					echoStep Rebasing...
+					git rebase $GIT_MASTER_BRANCH
+					if [ $? -ne 0 ]; then
+						echoError REBASE FAILED!
+					fi
+				else
+					echoError BRANCH \'$GIT_DEV_BRANCH\' DOES NOT EXIST!
 				fi
-			else
-				echoError BRANCH \'$GIT_DEV_BRANCH\' DOES NOT EXIST!
 			fi
 		else
 			echoError BRANCH \'$GIT_MASTER_BRANCH\' DOES NOT EXIST!
