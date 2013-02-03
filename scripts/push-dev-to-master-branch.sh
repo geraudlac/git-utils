@@ -57,29 +57,35 @@ for repo in ${GIT_REPO[*]}
 do
 	echoRepo $repo
 	cd $repo
+	
+	if branchExists $GIT_DEV_BRANCH; then
 
-	echoStep Checkout branch \'$GIT_MASTER_BRANCH\'...
-	git checkout $GIT_MASTER_BRANCH
+		echoStep Checkout branch \'$GIT_MASTER_BRANCH\'...
+		git checkout $GIT_MASTER_BRANCH
 
-	if [ $? -eq 0 ]; then
-		echoStep Rebasing \'$GIT_DEV_BRANCH\'...
-		git rebase $GIT_DEV_BRANCH
 		if [ $? -eq 0 ]; then
-			echoStep Pushing \'$GIT_MASTER_BRANCH\'...
-			git push
+			echoStep Rebasing \'$GIT_DEV_BRANCH\'...
+			git rebase $GIT_DEV_BRANCH
+			if [ $? -eq 0 ]; then
+				echoStep Pushing \'$GIT_MASTER_BRANCH\'...
+				git push
+			else
+				echoError REBASING BRANCH \'$GIT_DEV_BRANCH\' TO \'$GIT_MASTER_BRANCH\' FAILED!
+			fi
 		else
-			echoError REBASING BRANCH \'$GIT_DEV_BRANCH\' TO \'$GIT_MASTER_BRANCH\' FAILED!
+			echoError BRANCH \'$GIT_MASTER_BRANCH\' DOES NOT EXIST!
+		fi	
+
+		echoStep Checkout branch \'$GIT_DEV_BRANCH\'...
+		git checkout $GIT_DEV_BRANCH
+		if [ $? -ne 0 ]; then
+			echoError FAILED TO SWITCH BACK TO \'$GIT_DEV_BRANCH\' BRANCH!
 		fi
+	
 	else
-		echoError BRANCH \'$GIT_MASTER_BRANCH\' DOES NOT EXIST!
-	fi	
-
-	echoStep Checkout branch \'$GIT_DEV_BRANCH\'...
-	git checkout $GIT_DEV_BRANCH
-	if [ $? -ne 0 ]; then
-		echoError FAILED TO SWITCH BACK TO \'$GIT_DEV_BRANCH\' BRANCH!
+		echoInfo branch \'$GIT_DEV_BRANCH\' does not exist in $repo! SKIPPING...
 	fi
-
+	
 	cd ..
 	echo
 done
